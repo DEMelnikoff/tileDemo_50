@@ -484,7 +484,7 @@ var streakGame = (function() {
                 } else {
                     feedbackText = `<div class="outcome-container-lose">
                     <div class="your-score"><span style="color:green; font-weight:bold">Success!</span></div>
-                    <div class="trophy"><img src="./img/trophy.png" height="250px"></div>
+                    <div class="trophy"><img src="/tileDemo_50/img/trophy.png" height="250px"></div>
                     </div>`;
                 };
             } else {
