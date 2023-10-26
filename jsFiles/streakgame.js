@@ -350,8 +350,8 @@ var streakGame = (function() {
     p.intro.preMessage = {
         type: "instructions",
         pages: [`<div style='text-align: left; width: 950px'>
-            <p>Grey tiles will appear on your screen one by one. Your goal is to press your spacebar</br>
-            before each tile disappears. Each time you succeed, the tile will activate and you'll win a trophy!</p>
+            <p>Grey tiles will appear on your screen one by one. Your goal is "activate" each tile by pressing your spacebar</br>
+            before they disappear. Each time you activate a tile, you'll win a trophy!</p>
             </div>`],
         show_clickable_nav: true,
         post_trial_gap: 500,
@@ -416,20 +416,19 @@ var streakGame = (function() {
         this.R2 = jsPsych.randomization.shuffle(e1r2.concat(e0r2));
     };
 
-    function MakeLatencyArrays() {
-        var arrayR1 = [];
-        var arrayR2 = [];
-        var fast = Array(10-settings.pM).fill(215);
-        var slow = Array(settings.pM).fill(750);
-        for (let i = 0; i < ((settings.nTrials/10)-1); i++) {
-            arrayR1.push(jsPsych.randomization.shuffle(fast.concat(slow)))
-            arrayR2.push(jsPsych.randomization.shuffle(fast.concat(slow)))
-        }
-        var popped = fast.pop();
-        arrayR1.push(jsPsych.randomization.shuffle(fast.concat(slow)));
-        arrayR2.push(jsPsych.randomization.shuffle(fast.concat(slow)));
-        arrayR1.push(popped);
-        arrayR2.push(popped);
+    function MakeLatencyArrays(alpha, nSets) {
+        let easyArray = [750, 750, 750, 750, 750, 750, 215, 750, 750, 750];
+        let hardArray = [215, 750, 750, 215, 750, 215, 215, 750, 215, 750];
+        let arrayR1
+        for (let i = 0; i < nSets - 1; i++) {
+            easyArray.concat(easyArray);
+            hardArray.concat(hardArray);
+        };
+        if (alpha == 5) {
+            arrayR1 = hardArray;
+        } else if (alpha == 9) {
+            arrayR1 = easyArray;
+        };
         this.R1 = arrayR1.flat();
         this.R2 = arrayR2.flat();
     };
@@ -555,7 +554,7 @@ var streakGame = (function() {
     // temporary data
     var hitFeedback = new MakeHitFeedback(),
         missFeedback = new MakeMissFeedback(),
-        latency = new MakeLatencyArrays(),
+        latency = new MakeLatencyArrays(settings.pM, settings.nTrials/10),
         ITI = [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000],
         hits = 0,
         misses = 0,
