@@ -430,7 +430,7 @@ var streakGame = (function() {
             arrayR1 = easyArray;
         };
         this.R1 = arrayR1.flat();
-        this.R2 = arrayR2.flat();
+        this.R2 = arrayR1.flat();
     };
 
     function MakeProbe(round) {
